@@ -1,0 +1,170 @@
+{
+  "name": "Creative",
+  "displayName": "Creative",
+  "description": "Ready to use company website.",
+  "author": "The Orchard Core Team",
+  "website": "https://orchardcore.net",
+  "version": "1.0.0-rc2",
+  "issetuprecipe": true,
+  "categories": [ "default" ],
+  "tags": [ "Creative" ],
+
+  // The variables are evaluated the first time they are accessed, and reused across steps
+  "variables": {
+    "pageContentItemId": "[js:uuid()]"
+  },
+
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        // SaaS
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Admin",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.Features",
+        "OrchardCore.Navigation",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Roles",
+        "OrchardCore.Settings",
+        "OrchardCore.Themes",
+        "OrchardCore.Users",
+
+        // Content Management
+        "OrchardCore.Alias",
+        "OrchardCore.Autoroute",
+        "OrchardCore.Html",
+        "OrchardCore.ContentFields",
+        "OrchardCore.ContentPreview",
+        "OrchardCore.Contents",
+        "OrchardCore.Contents.FileContentDefinition",
+        "OrchardCore.ContentTypes",
+        "OrchardCore.CustomSettings",
+        "OrchardCore.Deployment",
+        "OrchardCore.Deployment.Remote",
+        "OrchardCore.Feeds",
+        "OrchardCore.Flows",
+        "OrchardCore.Layers",
+        "OrchardCore.Lists",
+        "OrchardCore.Markdown",
+        "OrchardCore.Media",
+        "OrchardCore.Menu",
+        "OrchardCore.Queries",
+        "OrchardCore.Shortcodes.Templates",
+        "OrchardCore.Title",
+        "OrchardCore.Templates",
+        "OrchardCore.Widgets",
+        // Themes
+        "Codesanook.TheCreativeTheme", // Enable theme
+        "TheAdmin",
+        "SafeMode"
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "TheAdmin",
+      "site": "Codesanook.TheCreativeTheme" // Use theme
+    },
+    {
+      "name": "settings",
+      "HomeRoute": {
+        "Action": "Display",
+        "Controller": "Item",
+        "Area": "OrchardCore.Contents",
+        "ContentItemId": "[js: variables('pageContentItemId')]"
+      }
+    },
+    {
+      "name": "layers",
+      "Layers": [
+        {
+          "Name": "Always",
+          "Rule": "true",
+          "Description": "The widgets in this layer are displayed on any page of this site."
+        },
+        {
+          "Name": "Homepage",
+          "Rule": "isHomepage()",
+          "Description": "The widgets in this layer are only displayed on the homepage."
+        }
+      ]
+    },
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "Page",
+          "DisplayName": "Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Page",
+              "Name": "Page",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Content",
+      "data": [
+        {
+          "ContentItemId": "[js:uuid()]",
+          "ContentItemVersionId": "[js:uuid()]",
+          "ContentType": "Page",
+          "DisplayText": "[js: parameters('SiteName')]",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUsername')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "AutoroutePart": {
+            "Path": "home-page",
+            "SetHomepage": true
+          },
+          "TitlePart": {
+            "Title": "[js: parameters('SiteName')]"
+          }
+        }
+      ]
+    }
+  ]
+}

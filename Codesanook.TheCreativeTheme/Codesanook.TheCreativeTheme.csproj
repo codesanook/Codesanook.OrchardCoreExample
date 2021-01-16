@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc1-11492" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc1-11492" />
+  </ItemGroup>
+
+</Project>
